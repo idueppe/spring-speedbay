@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static io.crowdcode.speedbay.common.AnsiColor.yellow;
@@ -28,10 +29,18 @@ public class AuctionServiceBean implements AuctionService {
 
     private final static Logger log = LoggerFactory.getLogger(AuctionServiceBean.class);
 
+    @Autowired(required = false)
+    private Optional<BadWordValidator> badWordValidator = Optional.empty();
+
+
     @Autowired
     private AuctionRepository auctionRepository;
 
     public Long placeAuction(String title, String description, BigDecimal minAmount) {
+
+        badWordValidator.ifPresent(validator -> validator.checkBadWords(title));
+        badWordValidator.ifPresent(validator -> validator.checkBadWords(description));
+
 
         if (minAmount == null || minAmount.compareTo(BigDecimal.ONE) <= 0) {
             minAmount = BigDecimal.ONE;
