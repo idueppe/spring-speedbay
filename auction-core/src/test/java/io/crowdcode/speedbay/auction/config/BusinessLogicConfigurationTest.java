@@ -44,24 +44,24 @@ public class BusinessLogicConfigurationTest {
         logBeanNames(context);
     }
 
-        @Test
-        public void testApplicationContextWithIntegration() throws Exception {
-            AuctionService service = context.getBean("auctionService", AuctionService.class);
+    @Test
+    public void testApplicationContextWithIntegration() throws Exception {
+        AuctionService service = context.getBean("auctionService", AuctionService.class);
 
-            Auction fixture = AuctionFixture.buildDefaultAuction();
+        Auction fixture = AuctionFixture.buildDefaultAuction();
 
-            Long auctionId = service
-                    .placeAuction(
-                            fixture.getTitle(),
-                            fixture.getDescription(),
-                            fixture.getMinAmount());
+        Long auctionId = service
+                .placeAuction(
+                        fixture.getTitle(),
+                        fixture.getDescription(),
+                        fixture.getMinAmount());
 
-            assertThat(auctionId, is(notNullValue()));
+        assertThat(auctionId, is(notNullValue()));
 
-            service.bidOnAuction(auctionId, BigDecimal.valueOf(11));
-            AuctionInfoDto dto = service.findAuction(auctionId);
-            assertThat(dto.getHighestBidAmount().doubleValue(), is(11.0));
-        }
+        service.bidOnAuction(auctionId, BigDecimal.valueOf(11));
+        AuctionInfoDto dto = service.findAuction(auctionId);
+        assertThat(dto.getHighestBidAmount().doubleValue(), is(11.0));
+    }
 
     private void logBeanNames(AnnotationConfigApplicationContext context) {
         String[] names = context.getBeanDefinitionNames();

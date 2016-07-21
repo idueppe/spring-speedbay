@@ -6,6 +6,9 @@ import io.crowdcode.speedbay.auction.repository.inmemory.AuctionRepositoryInMemo
 import io.crowdcode.speedbay.auction.service.AuctionService;
 import io.crowdcode.speedbay.auction.service.AuctionServiceBean;
 import io.crowdcode.speedbay.common.inmemory.InMemoryStore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,15 +18,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BusinessLogicConfiguration {
 
-    @Bean
-    public AuctionService auctionService(AuctionRepository auctionRepository) {
+    @Autowired
+    private ApplicationContext context;
+
+    @Autowired
+    private InMemoryStore<Auction> inMemoryStore;
+
+    @Bean(name = {"auctionService", "auctionServiceBean"})
+    public AuctionService auctionServiceBean(@Qualifier("auctionRepository") AuctionRepository auctionRepositoryXyz) {
+        AuctionRepositoryInMemoryBean bean = context.getBean(AuctionRepositoryInMemoryBean.class);
+        System.out.println(bean);
+
         AuctionServiceBean auctionService = new AuctionServiceBean();
-        auctionService.setAuctionRepository(auctionRepository);
+        auctionService.setAuctionRepository(auctionRepositoryXyz);
         return auctionService;
     }
 
     @Bean
-    public AuctionRepository auctionRepository(InMemoryStore<Auction> inMemoryStore) {
+//    public AuctionRepository auctionRepository(InMemoryStore<Auction> inMemoryStore) {
+    public AuctionRepository auctionRepository() {
         AuctionRepositoryInMemoryBean repository = new AuctionRepositoryInMemoryBean();
         repository.setStore(inMemoryStore);
         return repository;
@@ -31,6 +44,7 @@ public class BusinessLogicConfiguration {
 
     @Bean()
     public InMemoryStore<Auction> inMemoryStore() {
+
         return new InMemoryStore<>();
     }
 
