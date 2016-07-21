@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
  * @author Ingo Düppe (Crowdcode)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DatabasePopulateConfiguration.class})
+@ContextConfiguration(classes = {DatabasePopulateConfiguration.class, JdbcTransactionConfiguration.class})
 public class DatabasePopulateConfigurationTest {
 
     private static final String INSERT_ONE = "INSERT INTO Application_Log (id, message, createdAt, createdBy) VALUES (nextVal('LogSequence'), :message, :createdAt, :createdBy)";
