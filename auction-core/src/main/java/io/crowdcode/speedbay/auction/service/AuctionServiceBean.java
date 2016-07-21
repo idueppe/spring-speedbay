@@ -10,8 +10,6 @@ import io.crowdcode.speedbay.auction.repository.AuctionRepository;
 import io.crowdcode.speedbay.common.time.TimeMachine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,12 +21,10 @@ import static io.crowdcode.speedbay.common.AnsiColor.yellow;
 /**
  * @author Ingo Düppe (Crowdcode)
  */
-@Service
 public class AuctionServiceBean implements AuctionService {
 
     private final static Logger log = LoggerFactory.getLogger(AuctionServiceBean.class);
 
-    @Autowired
     private AuctionRepository auctionRepository;
 
     public Long placeAuction(String title, String description, BigDecimal minAmount) {
