@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 @Repository
 @Profile({"datajpa"})
-public interface AuctionRepositoryDataJpa extends JpaRepository<Auction, Long>, AuctionRepository {
+public interface AuctionRepositoryDataJpa extends JpaRepository<Auction, Long>, AuctionRepository, AuctionCustomRepository {
 
     Auction save(Auction auction);
 

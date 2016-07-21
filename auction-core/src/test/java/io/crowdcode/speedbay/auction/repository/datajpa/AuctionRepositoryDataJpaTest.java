@@ -23,7 +23,7 @@ import static org.junit.Assert.assertFalse;
 @ContextConfiguration(classes = {BusinessLogicAnnotationConfiguration.class, DataJpaRepositoryConfiguration.class})
 @Transactional
 @ActiveProfiles("datajpa")
-public class AuctionDataJpaRepositoryTest {
+public class AuctionRepositoryDataJpaTest {
     @Autowired
     private AuctionRepositoryDataJpa repository;
 
@@ -34,4 +34,14 @@ public class AuctionDataJpaRepositoryTest {
         auctions.forEach(System.out::println);
         assertFalse(auctions.isEmpty());
     }
+
+    @Test
+    public void testAllAuctionWithABidFrom() throws Exception {
+        repository.save(AuctionFixture.buildDefaultAuction());
+        List<Auction> auctions = repository.allAuctionWithABidFrom("unit@test.org");
+        auctions.forEach(System.out::println);
+
+        assertFalse(auctions.isEmpty());
+    }
+
 }
