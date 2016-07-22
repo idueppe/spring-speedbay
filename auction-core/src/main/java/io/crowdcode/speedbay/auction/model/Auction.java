@@ -39,7 +39,9 @@ public class Auction extends AbstractEntity<Auction, Long> {
     }
 
     public boolean isRunning() {
-        return beginDate.isBefore(TimeMachine.now()) && expireDate.isAfter(TimeMachine.now());
+        return (beginDate.isBefore(TimeMachine.now())
+                || beginDate.isEqual(TimeMachine.now()))
+                && expireDate.isAfter(TimeMachine.now());
     }
 
     public String getOwner() {

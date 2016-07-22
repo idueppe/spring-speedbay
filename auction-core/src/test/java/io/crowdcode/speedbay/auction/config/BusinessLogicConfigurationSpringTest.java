@@ -1,0 +1,46 @@
+package io.crowdcode.speedbay.auction.config;
+
+import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
+import io.crowdcode.speedbay.auction.fixture.AuctionFixture;
+import io.crowdcode.speedbay.auction.model.Auction;
+import io.crowdcode.speedbay.auction.service.AuctionService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.math.BigDecimal;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+
+/**
+ * @author Ingo Düppe (Crowdcode)
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = BusinessLogicConfiguration.class)
+public class BusinessLogicConfigurationSpringTest {
+
+    @Autowired
+    private AuctionService auctionService;
+
+    @Test
+    public void testApplicationContextWithIntegration() throws Exception {
+        Auction fixture = AuctionFixture.buildDefaultAuction();
+
+        Long auctionId = auctionService
+                .placeAuction(
+                        fixture.getTitle(),
+                        fixture.getDescription(),
+                        fixture.getMinAmount());
+
+        auctionService.bidOnAuction(auctionId, BigDecimal.valueOf(11));
+        AuctionInfoDto dto = auctionService.findAuction(auctionId);
+        assertThat(dto.getHighestBidAmount().doubleValue(), is(11.0));
+
+        assertThat(auctionService.findRunningAuctions(), hasSize(1));
+    }
+
+}
