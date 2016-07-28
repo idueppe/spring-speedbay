@@ -1,9 +1,9 @@
 package io.crowdcode.speedbay.auction.service;
 
-import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
 import io.crowdcode.speedbay.auction.exception.AuctionExpiredException;
 import io.crowdcode.speedbay.auction.exception.AuctionNotFoundException;
 import io.crowdcode.speedbay.auction.exception.BidTooLowException;
+import io.crowdcode.speedbay.auction.model.Auction;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,11 +15,11 @@ public interface AuctionService {
 
     Long placeAuction(String title, String description, BigDecimal minAmount);
 
-    AuctionInfoDto findAuction(Long auctionId);
+    Auction findAuction(Long auctionId);
 
-    List<AuctionInfoDto> findRunningAuctions();
+    List<Auction> findRunningAuctions();
 
-    List<AuctionInfoDto> findExpiredAuctions();
+    List<Auction> findExpiredAuctions();
 
     void bidOnAuction(final Long auctionId, BigDecimal amount) throws AuctionNotFoundException, AuctionExpiredException, BidTooLowException;
 

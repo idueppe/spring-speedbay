@@ -1,6 +1,5 @@
 package io.crowdcode.speedbay.auction.config;
 
-import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
 import io.crowdcode.speedbay.auction.fixture.AuctionFixture;
 import io.crowdcode.speedbay.auction.model.Auction;
 import io.crowdcode.speedbay.auction.service.AuctionService;
@@ -59,8 +58,8 @@ public class BusinessLogicConfigurationTest {
         assertThat(auctionId, is(notNullValue()));
 
         service.bidOnAuction(auctionId, BigDecimal.valueOf(11));
-        AuctionInfoDto dto = service.findAuction(auctionId);
-        assertThat(dto.getHighestBidAmount().doubleValue(), is(11.0));
+        Auction found = service.findAuction(auctionId);
+        assertThat(found.getHighestBid().getAmount().doubleValue(), is(11.0));
     }
 
     private void logBeanNames(AnnotationConfigApplicationContext context) {

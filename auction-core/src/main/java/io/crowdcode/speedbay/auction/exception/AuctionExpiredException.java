@@ -6,7 +6,7 @@ package io.crowdcode.speedbay.auction.exception;
 public class AuctionExpiredException extends ApplicationException {
 
     public AuctionExpiredException(Long auctionId) {
-        super("Auction"+ auctionId +" already expired ");
+        super("Auction" + auctionId + " already expired ");
     }
 
 }

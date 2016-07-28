@@ -1,6 +1,5 @@
 package io.crowdcode.speedbay.auction.repository;
 
-import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
 import io.crowdcode.speedbay.auction.fixture.AuctionFixture;
 import io.crowdcode.speedbay.auction.model.Auction;
 import io.crowdcode.speedbay.auction.service.AuctionService;
@@ -53,8 +52,8 @@ public class AuctionRepositoryTest {
         assertThat(auctionId, is(notNullValue()));
 
         service.bidOnAuction(auctionId, BigDecimal.valueOf(11));
-        AuctionInfoDto auctionDto = service.findAuction(auctionId);
-        assertThat(auctionDto.getHighestBidAmount().doubleValue(), is(11.0));
+        Auction found = service.findAuction(auctionId);
+        assertThat(found.getHighestBid().getAmount().doubleValue(), is(11.0));
     }
 
 }

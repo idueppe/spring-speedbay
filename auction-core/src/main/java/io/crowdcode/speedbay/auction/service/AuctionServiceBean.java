@@ -1,6 +1,5 @@
 package io.crowdcode.speedbay.auction.service;
 
-import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
 import io.crowdcode.speedbay.auction.exception.AuctionExpiredException;
 import io.crowdcode.speedbay.auction.exception.AuctionNotFoundException;
 import io.crowdcode.speedbay.auction.exception.BidTooLowException;
@@ -18,8 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static io.crowdcode.speedbay.common.AnsiColor.yellow;
 
 /**
  * @author Ingo Düppe (Crowdcode)
@@ -58,27 +55,27 @@ public class AuctionServiceBean implements AuctionService {
         return save.getId();
     }
 
-    public AuctionInfoDto findAuction(Long auctionId) {
-        return toAuctionDto(auctionRepository.findOne(auctionId));
+    public Auction findAuction(Long auctionId) {
+        return auctionRepository.findOne(auctionId);
     }
 
-    public List<AuctionInfoDto> findRunningAuctions() {
+    public List<Auction> findRunningAuctions() {
         final LocalDateTime now = TimeMachine.now();
         return auctionRepository
                 .findAll()
                 .parallelStream()
                 .filter(Auction::isRunning)
-                .map(this::toAuctionDto)
+//                .map(this::toAuctionDto)
                 .collect(Collectors.toList());
     }
 
-    public List<AuctionInfoDto> findExpiredAuctions() {
+    public List<Auction> findExpiredAuctions() {
         final LocalDateTime now = TimeMachine.now();
         return auctionRepository
                 .findAll()
                 .parallelStream()
                 .filter(Auction::isExpired)
-                .map(this::toAuctionDto)
+//                .map(this::toAuctionDto)
                 .collect(Collectors.toList());
     }
 
@@ -103,19 +100,22 @@ public class AuctionServiceBean implements AuctionService {
         auctionRepository.save(auction);
     }
 
-    private AuctionInfoDto toAuctionDto(Auction auction) {
-        return convertToAuctionInfoDto(auction);
-    }
 
-    private AuctionInfoDto convertToAuctionInfoDto(Auction auction) {
-        AuctionInfoDto dto = new AuctionInfoDto()
-                .withId(auction.getId())
-                .withTitle(auction.getTitle())
-                .withHighestBidder(auction.getHighestBid().getEmail())
-                .withHighestBidAmount(auction.getHighestBid().getAmount());
-        log.info(yellow("Converted to {}"), dto);
-        return dto;
-    }
+    /**
+     * private AuctionInfoDto toAuctionDto(Auction auction) {
+     * return convertToAuctionInfoDto(auction);
+     * }
+     * <p>
+     * private AuctionInfoDto convertToAuctionInfoDto(Auction auction) {
+     * AuctionInfoDto dto = new AuctionInfoDto()
+     * .withId(auction.getId())
+     * .withTitle(auction.getTitle())
+     * .withHighestBidder(auction.getHighestBid().getEmail())
+     * .withHighestBidAmount(auction.getHighestBid().getAmount());
+     * log.info(yellow("Converted to {}"), dto);
+     * return dto;
+     * }
+     **/
 
 
     public void setAuctionRepository(AuctionRepository auctionRepository) {

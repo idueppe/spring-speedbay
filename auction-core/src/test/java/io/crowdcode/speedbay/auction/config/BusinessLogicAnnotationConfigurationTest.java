@@ -1,6 +1,5 @@
 package io.crowdcode.speedbay.auction.config;
 
-import io.crowdcode.speedbay.auction.dto.AuctionInfoDto;
 import io.crowdcode.speedbay.auction.fixture.AuctionFixture;
 import io.crowdcode.speedbay.auction.model.Auction;
 import io.crowdcode.speedbay.auction.repository.AuctionRepository;
@@ -56,8 +55,8 @@ public class BusinessLogicAnnotationConfigurationTest {
                         fixture.getDescription(),
                         fixture.getMinAmount());
 
-        AuctionInfoDto dto = auctionService.findAuction(auctionId);
-        assertNotNull(dto);
+        Auction found = auctionService.findAuction(auctionId);
+        assertNotNull(found);
     }
 
     @Test
