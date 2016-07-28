@@ -1,7 +1,7 @@
 package io.crowdcode.speedbay.product.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.crowdcode.speedbay.product.ProductServiceApplication;
+import io.crowdcode.speedbay.product.fixture.ProductFixture;
 import io.crowdcode.speedbay.product.model.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +13,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.UUID;
 
 import static io.crowdcode.speedbay.common.AnsiColor.blue;
 import static io.crowdcode.speedbay.common.AnsiColor.green;
@@ -39,11 +35,11 @@ public class ProductControllerIntegrationTest {
     @Value("${local.server.port}")
     private int port;
 
-    @Value("${server.context-path:/}")
+    @Value("${server.context-path:}")
     private String contextPath;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private RestTemplate restTemplate;
 
     @Test
     public void testRunningTomcat() throws Exception {
@@ -55,69 +51,20 @@ public class ProductControllerIntegrationTest {
 
     @Test
     public void testCreateProduct() throws Exception {
-        RestTemplate restTemplate = createRestTemplate();
-
-        Product product = new Product()
-                .withUuid(UUID.randomUUID().toString())
-                .withTitle("INTEGRATION TEST");
-
+        final String uuid = ProductFixture.uuid();
         ResponseEntity<Void> response = restTemplate.postForEntity(
                 "http://localhost:"+port+contextPath+"/api/products",
-                product,
+                ProductFixture.defaultProduct(uuid),
                 Void.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 
         String location = response.getHeaders().getFirst("location");
-
         Product found = restTemplate.getForObject(location, Product.class);
 
         System.out.println(blue(found.toString()));
-
-        assertThat(found.getUuid(), is(product.getUuid()));
+        assertThat(found.getUuid(), is(uuid));
 
     }
-
-    public RestTemplate createRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        MappingJackson2HttpMessageConverter jsonConverter =
-                new MappingJackson2HttpMessageConverter();
-
-        jsonConverter.setObjectMapper(objectMapper);
-        restTemplate.setMessageConverters(Arrays.asList(jsonConverter));
-
-        return restTemplate;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
