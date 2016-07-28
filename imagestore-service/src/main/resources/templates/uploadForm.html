@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="de">
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=ege"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>SpeedBay - ImageStore</title>
+
+    <link href="../static/bootstrap/css/bootstrap.css"
+          th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+
+    <script th:src="@{/dropzone/dropzone.js}"></script>
+    <link rel="stylesheet" th:href="@{/dropzone/dropzone.css}"/>
+</head>
+<body>
+
+<!--/*@thymesVar id="ownerUuid" type="java.lang.String"*/-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2">
+            <h2>Image Store...</h2>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form id="fileDropZone" th:action="@{'/api/'+${ownerUuid}}" action="/dropzone" class="dropzone"></form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <ul id="fileList" class="list-group">
+                <!--/*@thymesVar id="hash" type="String"*/-->
+                <!--/*@thymesVar id="hashes" type="java.util.List"*/-->
+                <li th:each="hash : ${hashes}" class="list-group-item">
+                    <img class="img-circle" style="max-width: 80px;" th:src="@{'/api/images/'+${hash}}"/>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/jquery/jquery.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+
+<div id="owner-uuid" th:attr="data-owner-uuid=${ownerUuid}" style="display:none"></div>
+
+<script>
+    Dropzone.options.fileDropZone = {
+        init: function () {
+            var fileDropZone = this;
+            this.on("success", function (file, responseText) {
+                var fileList = $("#fileList");
+                var prefix = '<li class="list-group-item"><img class="img-circle" style="max-width: 80px;" src="../api/images/';
+                var suffix = '"/></li>';
+
+                var ownerUuid = $("#owner-uuid").attr("data-owner-uuid");
+                console.log("ownerUuid:"+ownerUuid);
+                fileList.html("");
+                $.getJSON("../api/"+ownerUuid, function (data) {
+                    data.forEach(function (hash) {
+                        fileList.append(prefix + hash + suffix);
+                    });
+                });
+                setTimeout(function () {
+                    fileDropZone.removeAllFiles(false)
+                }, 3000);
+            });
+        }
+    };
+</script>
+</body>
+</html>
