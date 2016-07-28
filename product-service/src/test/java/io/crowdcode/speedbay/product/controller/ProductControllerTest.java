@@ -89,7 +89,7 @@ public class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        verify(productService.createProduct(any(),any(),any()),atLeastOnce());
+        verify(productService,atLeastOnce()).createProduct(any(),any(),any());
     }
 
     @Test
