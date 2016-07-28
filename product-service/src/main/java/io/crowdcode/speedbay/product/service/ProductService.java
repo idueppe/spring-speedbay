@@ -6,6 +6,8 @@ import io.crowdcode.speedbay.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Ingo Düppe (Crowdcode)
  */
@@ -26,6 +28,10 @@ public class ProductService {
     public Product findProduct(final String uuid) throws ProductNotFoundException {
         return productRepository.findByUuid(uuid).orElseThrow(
                 () -> new ProductNotFoundException(uuid));
+    }
+
+    public List<Product> findAllProducts() {
+        return productRepository.findAll();
     }
 
 }
