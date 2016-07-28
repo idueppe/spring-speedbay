@@ -46,7 +46,7 @@
 
             <dependency>
                 <groupId>io.crowdcode.speedbay</groupId>
-                <artifactId>auction-api</artifactId>
+                <artifactId>auction-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

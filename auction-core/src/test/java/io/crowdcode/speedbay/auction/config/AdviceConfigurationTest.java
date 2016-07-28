@@ -43,13 +43,13 @@ public class AdviceConfigurationTest {
         Long before = countBidsAdvice.getBidCounts();
 
         Auction auction = AuctionFixture.buildDefaultAuction();
+        Long auctionId = auctionService.placeAuction(auction.getTitle(),auction.getDescription(), auction.getMinAmount());
 
-        Long auctionId = auctionService.placeAuction(auction.getTitle(), auction.getDescription(), auction.getMinAmount());
         auctionService.bidOnAuction(auctionId, BigDecimal.TEN);
 
         Long after = countBidsAdvice.getBidCounts();
 
-        assertThat(before + 1, is(equalTo(after)));
+        assertThat(before+1, is(equalTo(after)));
     }
 
     @Test

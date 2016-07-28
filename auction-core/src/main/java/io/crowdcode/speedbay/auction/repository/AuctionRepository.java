@@ -9,7 +9,6 @@ import java.util.Optional;
  * @author Ingo Düppe (Crowdcode)
  */
 public interface AuctionRepository {
-
     Optional<Auction> find(Long auctionId);
 
     Auction findOne(Long auctionId);
@@ -17,5 +16,4 @@ public interface AuctionRepository {
     List<Auction> findAll();
 
     Auction save(Auction auction);
-
 }

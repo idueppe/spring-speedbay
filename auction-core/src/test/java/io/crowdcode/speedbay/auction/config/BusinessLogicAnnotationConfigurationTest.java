@@ -47,14 +47,9 @@ public class BusinessLogicAnnotationConfigurationTest {
 
     @Test
     public void testIfBeansAreCorrectlyWiredTogether() throws Exception {
-        Auction fixture = AuctionFixture.buildDefaultAuction();
-
-        Long auctionId = auctionService
-                .placeAuction(
-                        fixture.getTitle(),
-                        fixture.getDescription(),
-                        fixture.getMinAmount());
-
+        Auction auction = AuctionFixture.buildDefaultAuction();
+        Long auctionId = auctionService.placeAuction(auction.getTitle(),
+                auction.getDescription(), auction.getMinAmount());
         Auction found = auctionService.findAuction(auctionId);
         assertNotNull(found);
     }

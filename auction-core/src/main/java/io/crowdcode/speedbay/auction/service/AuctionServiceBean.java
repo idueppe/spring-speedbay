@@ -34,6 +34,10 @@ public class AuctionServiceBean implements AuctionService {
     private AuctionRepository auctionRepository;
 
     public Long placeAuction(String title, String description, BigDecimal minAmount) {
+        return placeAuction(title,description, minAmount, "UNKNOWN");
+    }
+
+    public Long placeAuction(String title, String description, BigDecimal minAmount, String productUuid) {
 
         badWordValidator.ifPresent(validator -> validator.checkBadWords(title));
         badWordValidator.ifPresent(validator -> validator.checkBadWords(description));
@@ -47,6 +51,7 @@ public class AuctionServiceBean implements AuctionService {
                 .withOwner("owner") // wo kommt der Principal her
                 .withTitle(title)
                 .withDescription(description)
+                .withProductUuid(productUuid)
                 .withMinAmount(minAmount)
                 .withBeginDate(LocalDateTime.now())
                 .withExpireDate(LocalDateTime.now().plusMinutes(5));
@@ -99,23 +104,6 @@ public class AuctionServiceBean implements AuctionService {
         auction.getBids().add(bid);
         auctionRepository.save(auction);
     }
-
-
-    /**
-     * private AuctionInfoDto toAuctionDto(Auction auction) {
-     * return convertToAuctionInfoDto(auction);
-     * }
-     * <p>
-     * private AuctionInfoDto convertToAuctionInfoDto(Auction auction) {
-     * AuctionInfoDto dto = new AuctionInfoDto()
-     * .withId(auction.getId())
-     * .withTitle(auction.getTitle())
-     * .withHighestBidder(auction.getHighestBid().getEmail())
-     * .withHighestBidAmount(auction.getHighestBid().getAmount());
-     * log.info(yellow("Converted to {}"), dto);
-     * return dto;
-     * }
-     **/
 
 
     public void setAuctionRepository(AuctionRepository auctionRepository) {

@@ -23,8 +23,7 @@ public class DomainFactoryConfiguration {
     @Scope("prototype")
     public static Auction auction() {
         return new Auction()
-                .withOwner("Owner")
-                .withMinAmount(BigDecimal.TEN)
+                .withOwner("Me")
                 .withBeginDate(LocalDateTime.now().plus(1, ChronoUnit.MINUTES))
                 .withExpireDate(LocalDateTime.now().plus(2, ChronoUnit.MINUTES));
     }

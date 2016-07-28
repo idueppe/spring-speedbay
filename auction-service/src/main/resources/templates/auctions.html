@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>SpeedAuction</title>
+
+    <link href="../static/bootstrap/css/bootstrap.css"
+          th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:include="/fragments/navbar::defaultNavbar"></div>
+
+<!--/*@thymesVar id="auctions" type="java.util.List"*/-->
+<!--/*@thymesVar id="auction" type="io.crowdcode.speedbay.auction.model.Auction"*/-->
+<!--/*@thymesVar id="error" type="java.lang.String"*/-->
+<!--/*@thymesVar id="msg" type="java.lang.String"*/-->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div th:if="${error}" class="alert alert-danger" role="alert"
+                 th:text="${error}">ERROR
+            </div>
+
+            <div th:if="${msg}" class="alert alert-info" role="alert"
+                 th:text="${msg}">Message
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="jumbotron">
+            <h1 th:text="#{auctions.title}">Liste der Auktionen</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table">
+                <tr>
+                    <th th:text="#{auctions.id}">Id</th>
+                    <th th:text="#{auctions.thumbnail}">Image</th>
+                    <th th:text="#{auctions.title}">Titel</th>
+                    <th th:text="#{auctions.bidOf}">Gebot mit</th>
+                    <th th:text="#{auctions.bidFrom}">Gebot von</th>
+                </tr>
+                <tr th:each="auction, rowStat : ${auctions}" th:object="${auction}">
+                    <td><a th:href="@{'/auctions/'+*{id}}" th:text="*{id}"></a></td>
+                    <td> <img class="img-circle" style="max-width: 80px;" th:src="*{thumbnail}"/></td>
+                    <td th:text="*{title}"></td>
+                    <td th:text="*{highestBidAmount}"></td>
+                    <td th:text="*{highestBidder}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/jquery/jquery.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+</html>

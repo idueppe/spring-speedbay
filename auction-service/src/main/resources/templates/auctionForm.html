@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>SpeedAuction</title>
+
+    <link rel="icon"
+          href="none"
+          th:href="@{/images/favicon.ico}"
+          type="image/x-icon"/>
+
+
+    <link href="../static/bootstrap/css/bootstrap.css"
+          th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:include="/fragments/navbar::defaultNavbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="jumbotron">
+            <h1 th:utext="#{auction.form.title}">Liste der Auktionen</h1>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="modal-dialog" style="margin-bottom: 0">
+                <div class="modal-content">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" th:text="#{subTitle}">New Auction</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal render-partial"
+                              action="#"
+                              th:action="@{/auctions/new}"
+                              th:object="${auctionForm}"
+                              th:method="post">
+                            <!--th:form="${auctionForm}"-->
+                            <ul th:if="${#fields.hasErrors('*')}">
+                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}" class="alert-danger">Input is incorrect</li>
+                            </ul>
+                            <div class="control-group" style="padding-top:10px">
+                                <label class="control-label">Titel</label>
+                                <div class="controls">
+                                    <input class="input-block-level"
+                                           value="to_be_replaced"
+                                           type="text"
+                                           th:field="*{title}"
+                                           placeholder="Title"/>
+                                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color:red;">Incorrect date</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="padding-top:10px">
+                                <label class="control-label">Beschreibung</label>
+                                <div class="controls">
+                                    <input class="input-block-level"
+                                           value="to_be_replaced"
+                                           type="text"
+                                           th:field="*{description}"
+                                           placeholder="Beschreibung"/>
+                                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color:red;">Incorrect date</p>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group" style="padding-top:10px">
+                                <label class="control-label">Mindestgebot</label>
+                                <div class="controls">
+                                    <input class="input-block-level"
+                                           value="to_be_replaced"
+                                           type="number"
+                                           th:field="*{minAmount}"
+                                           placeholder="1,00"/>
+                                    <p th:if="${#fields.hasErrors('minAmount')}" th:errors="*{minAmount}" style="color:red;">Incorrect date</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="padding-top:20px">
+                                <div class="controls">
+                                    <button type="submit"
+                                            class="btn btn-primary">
+                                        Erstellen
+                                    </button>
+                                    <a href="#" th:href="@{/auctions}" class="btn btn-danger">Abbrechen</a>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/jquery/jquery.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+</html>

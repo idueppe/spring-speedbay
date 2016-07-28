@@ -15,6 +15,7 @@
         <module>auction-core</module>
         <module>product-service</module>
         <module>imagestore-service</module>
+        <module>auction-service</module>
     </modules>
 
 </project>

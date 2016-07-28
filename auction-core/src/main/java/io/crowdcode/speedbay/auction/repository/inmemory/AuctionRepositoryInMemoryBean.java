@@ -3,8 +3,10 @@ package io.crowdcode.speedbay.auction.repository.inmemory;
 
 import io.crowdcode.speedbay.auction.model.Auction;
 import io.crowdcode.speedbay.auction.repository.AuctionRepository;
+import io.crowdcode.speedbay.auction.util.DefaultInMemoryProfileCondition;
 import io.crowdcode.speedbay.common.inmemory.InMemoryStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
  * @author Ingo Düppe (Crowdcode)
  */
 @Repository
+@Conditional(DefaultInMemoryProfileCondition.class)
 public class AuctionRepositoryInMemoryBean implements AuctionRepository {
 
     @Autowired

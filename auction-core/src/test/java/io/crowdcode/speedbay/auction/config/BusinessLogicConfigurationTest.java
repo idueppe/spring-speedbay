@@ -47,14 +47,9 @@ public class BusinessLogicConfigurationTest {
     public void testApplicationContextWithIntegration() throws Exception {
         AuctionService service = context.getBean("auctionService", AuctionService.class);
 
-        Auction fixture = AuctionFixture.buildDefaultAuction();
+        Auction auction = AuctionFixture.buildDefaultAuction();
 
-        Long auctionId = service
-                .placeAuction(
-                        fixture.getTitle(),
-                        fixture.getDescription(),
-                        fixture.getMinAmount());
-
+        Long auctionId = service.placeAuction(auction.getTitle(), auction.getDescription(), auction.getMinAmount());
         assertThat(auctionId, is(notNullValue()));
 
         service.bidOnAuction(auctionId, BigDecimal.valueOf(11));

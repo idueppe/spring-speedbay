@@ -15,6 +15,8 @@ public interface AuctionService {
 
     Long placeAuction(String title, String description, BigDecimal minAmount);
 
+    Long placeAuction(String title, String description, BigDecimal minAmount, String productUuid);
+
     Auction findAuction(Long auctionId);
 
     List<Auction> findRunningAuctions();

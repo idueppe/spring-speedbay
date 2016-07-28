@@ -12,7 +12,8 @@ import org.springframework.context.annotation.FilterType;
         basePackages = {"io.crowdcode.speedbay.auction", "io.crowdcode.speedbay.common.inmemory"},
         excludeFilters =
                 {
-                        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "io\\.crowdcode\\.speedbay\\.auction\\.config.*")
+                        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "io\\.crowdcode\\.speedbay\\.auction\\.config.*"),
+                        @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*ApplicationLog.*")
                 }
 )
 public class BusinessLogicAnnotationConfiguration {

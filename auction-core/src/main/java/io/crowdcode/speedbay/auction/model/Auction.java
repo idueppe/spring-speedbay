@@ -1,7 +1,12 @@
 package io.crowdcode.speedbay.auction.model;
 
+import io.crowdcode.speedbay.auction.common.LocalDateTimePersistenceConverter;
 import io.crowdcode.speedbay.common.time.TimeMachine;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,12 +15,15 @@ import java.util.List;
 /**
  * @author Ingo Düppe (Crowdcode)
  */
+@Entity
 public class Auction extends AbstractEntity<Auction, Long> {
 
     private String owner;
 
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime beginDate;
 
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime expireDate;
 
     private BigDecimal minAmount;
@@ -24,6 +32,9 @@ public class Auction extends AbstractEntity<Auction, Long> {
 
     private String description;
 
+    private String productUuid;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Bid> bids = new ArrayList<>();
 
     public Bid getHighestBid() {
@@ -133,6 +144,19 @@ public class Auction extends AbstractEntity<Auction, Long> {
 
     public Auction withDescription(final String description) {
         this.description = description;
+        return this;
+    }
+
+    public String getProductUuid() {
+        return productUuid;
+    }
+
+    public void setProductUuid(String productUuid) {
+        this.productUuid = productUuid;
+    }
+
+    public Auction withProductUuid(final String productUuid) {
+        this.productUuid = productUuid;
         return this;
     }
 

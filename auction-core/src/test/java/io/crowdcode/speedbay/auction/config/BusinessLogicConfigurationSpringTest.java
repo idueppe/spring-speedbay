@@ -27,13 +27,11 @@ public class BusinessLogicConfigurationSpringTest {
 
     @Test
     public void testApplicationContextWithIntegration() throws Exception {
-        Auction fixture = AuctionFixture.buildDefaultAuction();
-
-        Long auctionId = auctionService
-                .placeAuction(
-                        fixture.getTitle(),
-                        fixture.getDescription(),
-                        fixture.getMinAmount());
+        Auction auction = AuctionFixture.buildDefaultAuction();
+        Long auctionId = auctionService.placeAuction(
+                auction.getTitle(),
+                auction.getDescription(),
+                auction.getMinAmount());
 
         auctionService.bidOnAuction(auctionId, BigDecimal.valueOf(11));
         Auction found = auctionService.findAuction(auctionId);
