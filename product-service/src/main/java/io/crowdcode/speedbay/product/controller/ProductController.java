@@ -26,7 +26,7 @@ import static io.crowdcode.speedbay.common.AnsiColor.red;
  * @author Ingo Düppe (Crowdcode)
  */
 @RestController
-@RequestMapping(path = {"/api/products", "/produkte"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = {"/api/products"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ProductController {
 
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
@@ -60,5 +60,7 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
-
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 }
