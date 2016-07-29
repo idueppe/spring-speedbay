@@ -4,7 +4,6 @@ import io.crowdcode.speedbay.auction.dto.ProductDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,8 +25,8 @@ public class ProductRestClientBean implements ProductRestClient {
 
     private static final Logger log = LoggerFactory.getLogger(ProductRestClientBean.class);
 
-    @Value("${product.service.url}")
-    private String productReserviceUrl;
+    // TODO
+    private String productServiceUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -42,14 +41,14 @@ public class ProductRestClientBean implements ProductRestClient {
 
         HttpEntity<ProductDto> entity = new HttpEntity<>(productDto, jsonContentTypeHeaders());
 
-        ResponseEntity<String> response = restTemplate.exchange(productReserviceUrl, HttpMethod.POST, entity, String.class, Void.class);
+        ResponseEntity<String> response = restTemplate.exchange(productServiceUrl, HttpMethod.POST, entity, String.class, Void.class);
         log.info(blue("Created Auction at {}"), response.getHeaders().getFirst("location"));
         return ownerUuid;
     }
 
     @Override
     public ProductDto findProduct(String productUuid) {
-        String url = productReserviceUrl + "/{productUuid}";
+        String url = productServiceUrl + "/{productUuid}";
 
         ResponseEntity<ProductDto> response =
                 restTemplate.exchange(url,
